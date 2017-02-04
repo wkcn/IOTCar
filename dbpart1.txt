@@ -1,0 +1,11 @@
+7 CarStickTime 经纬度,温度,油量
+12 GPSLOG1 传感器产生的原始信息
+20 TabGps_DayRpt 时间, 车牌, 车速
+28 CarMileageInfo_XXX 车辆行驶状态
+15 Mobile_Info 车辆信息 (CarInfo合并到这里)
+16 Mobile_TypeInfo 网络通讯参数
+17 OrderCheck_Info 指令编号名称
+18 SendCmdLog 发送的指令记录
+
+6 City Range 城市的经纬度
+1 Alarm Operation 报警事件
