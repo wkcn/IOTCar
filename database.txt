@@ -1,0 +1,33 @@
+7 CarStickTime 经纬度,温度,油量
+12 GPSLOG1 传感器产生的原始信息
+20 TabGps_DayRpt 时间, 车牌, 车速
+28 CarMileageInfo_XXX 车辆行驶状态
+15 Mobile_Info 车辆信息 (CarInfo合并到这里)
+16 Mobile_TypeInfo 网络通讯参数
+17 OrderCheck_Info 指令编号名称
+18 SendCmdLog 发送的指令记录
+
+21 CarFare 车辆过收费站的费用
+22 CheLiangInfo 车辆物流信息(要改表名)
+24 LineAndCar 路线车辆
+25 LineAndCarItem 到达站点时间
+26 LineInfo 路线信息
+27 LineInfoItem 物品时间
+44 CarList 车辆信息
+8 CarWorkInfo 车俩工作信息
+
+10 Consumer_Info 乘客信息
+39 UserInfo 司机信息
+40 UserPurview 用户权限
+41 UsrLogRec 用户日志
+29 ClientInfo 客户信息
+31 TollGate 收费站信息
+37 UsrCustomPoint 行驶记录
+
+系统日志
+19 Sys_syslog 用户登录退出信息
+36 tbl_UserInfo 管理员信息
+6 City Range 城市的经纬度
+1 Alarm Operation 报警事件
+23 EmTransact 突发情况
+30 TerminalAlarm 紧急信息

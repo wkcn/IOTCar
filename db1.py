@@ -12,16 +12,6 @@ def get_time():
     # return a string %Y%m%d%H%M%S
     return time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
 
-'''
-def insert_CarMileagesInfo(MobileID, Mileages, OilCapacity, Temperature):
-    return "insert into CarMileagesInfo(MobileID, RecvTime, Mileages, OilCapacity, Temperature) values (%d, %s, %f, %f %f);" % (MobileID, get_time(), Mileages, OilCapacity, Temperature)
-
-def select_CarMileagesInfo(MobileID):
-    return "selct (MobileID, RecvTime, Mileages, OilCapacity, Temperature) from CarMileagesInfo where MobileID = %d;" % (MobileID)
-
-def insert_GPSLog(GPSID, MobileID, GPSTime, RecvTime, L
-'''
-
 def normalSQL(assign):
     attr = []
     value = []
@@ -56,4 +46,12 @@ sql = sql_select("CarMileagesInfo", ["RecvTime"], "MobileID = 1")
 sql = sql_insert("GPSState", GPSStateID = 1, GPSDescribe = "haha")
 sql = sql_update("CarMileagesInfo", "MobileID = 1", OilCapacity = 100);
 sql = sql_insert("GPSLog", GPSID = 0, MobileID = 1, GPSTime = get_time(), RecvTime = get_time(), Longitude = 128.0, Latitude = 32.2, Speed = 30, GPSStateID = 0, UserStateID = 0)
+sql = sql_insert("TabGPS_DayRpt", MobileID = 1, DayRptTime = get_time(), CarCode = "hahacar", Distance = 0.0, MaxSpeed = 120.0, AvgSpeed = 60.0)
+sql = sql_update("TabGPS_DayRpt", "MobileID = 1", Distance = 2.0)
+sql = sql_insert("Mobile_Info", MobileID = 1, MobileType = 0, MobileSim = "hsim", DriverLicense = "123454321", VehicleName = "Car", VehicleRegistration = "Reg", VehicleType = "Type", VehicleColor = "Black", VehicleEngine = "D type", FixingTime = get_time(), ServiceTime = get_time(), OilBox = 380.0)
+sql = sql_insert("Driver", DriverName = "laosiji", DriverLicense="123454321", Tel1 = "13312343212")
+sql = sql_insert("OrderCheck_Info", OrderID = 0, OrderName = "park", OrderType = 0)
+sql = sql_insert("SendCmdLog", MobileID = 0, SendTime = get_time(), UserID = 0, CmdType = 0, CmdContent = "gogo")
+sql = sql_insert("CityRagne", CityName = "Guangzhou", MinLong = 0, MaxLong = 1, MinLat = 0, MaxLat = 1)
+sql = sql_insert("AlarmOperation", AlarmID = 0, MobileID = 1, RecvTime = get_time(), GPSTime = get_time(), MsgStr = "alarm", MsgDescribe = "ahahahaha", Longitude = 1.0, Latitude = 2.0)
 print (sql)
