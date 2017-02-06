@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>物联网地图</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+<div id="container"></div>
+<div class="inputs">
+    <label>Position X:</label>
+    <input type="text" name="x">
+    <label>Position Y:</label>
+    <input type="text" name="y">
+    <label>Infomation:</label>
+    <textarea class="info" rows="3"></textarea>
+    <button class="add">Add Point</button>
+</div>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=39859ed9c5ee9bfa91bf8d31581d2052"></script>
+<script type="text/javascript" src="./jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="./logic.js"></script>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</body>
+</html>
