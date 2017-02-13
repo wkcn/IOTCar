@@ -33,4 +33,9 @@ $(document).ready(function(){
         add_point(x, y, title);
     });
 
+    $(".add-btn").click(function(event) {
+        $(".inputs").fadeToggle();
+        $(".add-btn img").toggleClass('rotate');
+    });
+
 })
