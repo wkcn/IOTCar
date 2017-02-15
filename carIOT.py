@@ -46,6 +46,26 @@ def getAllLocation():
     cursor.close()
     return jsonify(resultDic)
 
+# Query a location list of n latest drive info
+@app.route('/get_n_location', methods=['GET'])
+def getNLocation():
+    cursor = connectToMysql()
+    num = request.args.get('n')
+    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info ORDER BY create_time LIMIT "+ str(num))
+    result = cursor.fetchall()
+    resultDic = {}
+    for row in result:
+        DriverId = row[0]
+        CarId = row[1]
+        Longitude = row[2]
+        Latitude = row[3]
+        oil_capacity = row[4]
+        temperature = row[5]
+        create_time = row[6]
+        resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
+    cursor.close()
+    return jsonify(resultDic)
+
 
 # Query the specific info of a car giving its  ID
 @app.route('/get_car_info', methods=['GET'])
