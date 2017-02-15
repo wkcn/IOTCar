@@ -27,35 +27,53 @@ def postInfo():
         return "Failed"
 
 
-# Query a location list of a car giving its mobile ID
-@app.route('/get_location', methods=['GET'])
-def getLocation():
+# Query a location list of all cars
+@app.route('/get_all_location', methods=['GET'])
+def getAllLocation():
     cursor = connectToMysql()
-    MobileId = request.args.get('MId')
-    cursor.execute("SELECT StickTime, Longitude, Latitude FROM CarStickTime WHERE MobileID="+MobileId)
+    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info")
     result = cursor.fetchall()
-    resultDic = {"NULL":{}}
+    resultDic = {}
     for row in result:
-        StickTime = row[0]
-        Longitude = row[1]
-        Latitude = row[2]
-        resultDic[str(StickTime)] = {Longitude,Latitude}
+        DriverId = row[0]
+        CarId = row[1]
+        Longitude = row[2]
+        Latitude = row[3]
+        oil_capacity = row[4]
+        temperature = row[5]
+        create_time = row[6]
+        resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
     return jsonify(resultDic)
 
 
-# Query the specific info of a car giving its mobile ID
-@app.route('/get_mobile_info', methods=['GET'])
-def getInfo():
+# Query the specific info of a car giving its  ID
+@app.route('/get_car_info', methods=['GET'])
+def getCarInfo():
     cursor = connectToMysql()
-    MobileId = request.args.get('MId')
-    cursor.execute("SELECT MobileType, DriverLicense, VehicleName FROM Mobile_Info WHERE MobileID="+MobileId)
+    CarId = request.args.get('CarId')
+    cursor.execute("SELECT id, type, car_num FROM Car WHERE id="+CarId)
     result = cursor.fetchall()
-    resultDic = {"NULL":{}}
+    resultDic = {}
     for row in result:
-        resultDic['MobileType'] = row[0]
-        resultDic['DriverLicense'] = row[1]
-        resultDic['VehicleName'] = row[2]
+        resultDic['id'] = row[0]
+        resultDic['type'] = row[1]
+        resultDic['car_num'] = row[2]
+    cursor.close()
+    return jsonify(resultDic)
+
+# Query the specific info of a driver giving its  ID
+@app.route('/get_Driver_info', methods=['GET'])
+def getDriverInfo():
+    cursor = connectToMysql()
+    DriverId = request.args.get('DriverId')
+    cursor.execute("SELECT id, name, tel FROM Driver WHERE id="+DriverId)
+    result = cursor.fetchall()
+    resultDic = {}
+    for row in result:
+        resultDic['id'] = row[0]
+        resultDic['name'] = row[1]
+        resultDic['tel'] = row[2]
     cursor.close()
     return jsonify(resultDic)
 
