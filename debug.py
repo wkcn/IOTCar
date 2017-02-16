@@ -5,21 +5,22 @@ def connectToMysql():
     cursor = db.cursor()
     return cursor
 
-def getNLocation(num):
+def getNLocation():
     cursor = connectToMysql()
-    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info ORDER BY create_time LIMIT "+ str(num))
+    sql = "SELECT * FROM (SELECT car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info JOIN Driver ORDER BY create_time DESC) GROUP BY car_id"
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
-        DriverId = row[0]
-        CarId = row[1]
-        Longitude = row[2]
-        Latitude = row[3]
-        oil_capacity = row[4]
-        temperature = row[5]
-        create_time = row[6]
-        resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
+        CarId = row[0]
+        DriverName = row[1]
+        DriverTel = row[2]
+        Longitude = row[3]
+        Latitude = row[4]
+        oil_capacity = row[5]
+        temperature = row[6]
+        create_time = row[7]
+        resultDic[str(create_time)] = {"CarId":CarId,"DriverName": DriverName,"DriverTel": DriverTel,"Longitude":Longitude,"Latitude":Latitude,"oil_capacity":oil_capacity,"temperature":temperature}
     cursor.close()
     return jsonify(resultDic)
 
-print(getNLocation(5))
+print(getNLocation())
