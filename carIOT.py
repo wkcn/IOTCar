@@ -44,7 +44,8 @@ def getAllLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return jsonify(resultDic)
+    print resultDic
+    return resultDic
 
 # Query a location list of n latest drive info
 @app.route('/get_n_location', methods=['GET'])
@@ -64,7 +65,8 @@ def getNLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return jsonify(resultDic)
+    print resultDic
+    return resultDic
 
 
 # Query the specific info of a car giving its  ID
