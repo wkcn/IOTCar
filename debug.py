@@ -22,6 +22,6 @@ def getNLocation():
         create_time = row[7]
         resultDic[str(create_time)] = {"CarId":CarId,"DriverName": DriverName,"DriverTel": DriverTel,"Longitude":Longitude,"Latitude":Latitude,"oil_capacity":oil_capacity,"temperature":temperature}
     cursor.close()
-    return jsonify(resultDic)
+    return resultDic
 
 print(getNLocation())
