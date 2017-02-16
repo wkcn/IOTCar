@@ -7,7 +7,7 @@ def connectToMysql():
 
 def getNLocation():
     cursor = connectToMysql()
-    sql = "SELECT car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time FROM (SELECT car_id, max(create_time) FROM Drive_info GROUP BY car_id DESC) as dct JOIN Drive_info JOIN Driver"
+    sql = "SELECT car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time FROM (SELECT car_id, max(create_time) FROM Drive_info GROUP BY car_id DESC) as dct NATURAL JOIN Drive_info NATURAL JOIN Driver"
     cursor.execute(sql)
     result = cursor.fetchall()
     resultDic = {}
