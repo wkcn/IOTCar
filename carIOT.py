@@ -31,7 +31,7 @@ def postInfo():
 @app.route('/get_all_location', methods=['GET'])
 def getAllLocation():
     cursor = connectToMysql()
-    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info")
+    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info ORDER BY create_time DESC")
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
@@ -44,14 +44,14 @@ def getAllLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return jsonify(resultDic)
+    return flask.jsonify(resultDic)
 
 # Query a location list of n latest drive info
 @app.route('/get_n_location', methods=['GET'])
 def getNLocation():
     cursor = connectToMysql()
     num = request.args.get('n')
-    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info ORDER BY create_time LIMIT "+ str(num))
+    cursor.execute("SELECT driver_id, car_id, longitude, latitude, oil_capacity, temperature, create_time FROM Drive_info ORDER BY create_time DESC LIMIT "+ str(num))
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
@@ -64,7 +64,7 @@ def getNLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return jsonify(resultDic)
+    return flask.jsonify(resultDic)
 
 
 # Query the specific info of a car giving its  ID
@@ -80,7 +80,7 @@ def getCarInfo():
         resultDic['type'] = row[1]
         resultDic['car_num'] = row[2]
     cursor.close()
-    return jsonify(resultDic)
+    return flask.jsonify(resultDic)
 
 # Query the specific info of a driver giving its  ID
 @app.route('/get_Driver_info', methods=['GET'])
@@ -95,13 +95,12 @@ def getDriverInfo():
         resultDic['name'] = row[1]
         resultDic['tel'] = row[2]
     cursor.close()
-    return jsonify(resultDic)
+    return flask.jsonify(resultDic)
 
 @app.route('/', methods=['GET'])
 def index():
-    print (111)
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, host = '45.32.48.44')
+    app.run(debug=True, host = '45.32.48.44', port = 80)
     # app.run(debug=False, port = 80, host = '45.32.56.30')
