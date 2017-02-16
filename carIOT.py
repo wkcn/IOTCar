@@ -99,6 +99,7 @@ def getDriverInfo():
 
 @app.route('/', methods=['GET'])
 def index():
+    print (111)
     return render_template('index.html')
 
 if __name__ == '__main__':
