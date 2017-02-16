@@ -14,7 +14,7 @@ def getNLocation():
     ON t1.car_id = t2.car_id AND t1.create_time = t2.create_time
     Join
     Driver as t3
-    On t1.driver_id = t3.driver_id'''
+    On t1.driver_id = t3.id'''
     cursor.execute(sql)
     result = cursor.fetchall()
     resultDic = {}
