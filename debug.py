@@ -1,5 +1,5 @@
 import pymysql
-
+from flask import jsonify
 def connectToMysql():
     db = pymysql.connect('localhost','root','youareBT','wlw')
     cursor = db.cursor()
