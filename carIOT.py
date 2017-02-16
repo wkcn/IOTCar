@@ -42,10 +42,9 @@ def getAllLocation():
         oil_capacity = row[4]
         temperature = row[5]
         create_time = row[6]
-        resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
+        resultDic[str(create_time)] = {"DriverId":DriverId,"CarId":CarId,"Longitude":Longitude,"Latitude":Latitude,"oil_capacity":oil_capacity,"temperature":temperature}
     cursor.close()
-    print resultDic
-    return resultDic
+    return jsonfiy(resultDic)
 
 # Query a location list of n latest drive info
 @app.route('/get_n_location', methods=['GET'])
@@ -63,10 +62,9 @@ def getNLocation():
         oil_capacity = row[4]
         temperature = row[5]
         create_time = row[6]
-        resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
+        resultDic[str(create_time)] = {"DriverId":DriverId,"CarId":CarId,"Longitude":Longitude,"Latitude":Latitude,"oil_capacity":oil_capacity,"temperature":temperature}
     cursor.close()
-    print resultDic
-    return resultDic
+    return jsonfiy(resultDic)
 
 
 # Query the specific info of a car giving its  ID
