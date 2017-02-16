@@ -7,7 +7,7 @@ def connectToMysql():
 
 def getNLocation():
     cursor = connectToMysql()
-    sql = '''SELECT car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time
+    sql = '''SELECT t1.car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time
     FROM Drive_info as t1
     Join 
     (SELECT car_id, max(create_time) as create_time from Drive_info group by car_id) as t2
