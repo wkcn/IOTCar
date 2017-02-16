@@ -44,7 +44,7 @@ def getAllLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return flask.jsonify(resultDic)
+    return jsonify(resultDic)
 
 # Query a location list of n latest drive info
 @app.route('/get_n_location', methods=['GET'])
@@ -64,7 +64,7 @@ def getNLocation():
         create_time = row[6]
         resultDic[str(create_time)] = {DriverId,CarId,Longitude,Latitude,oil_capacity,temperature}
     cursor.close()
-    return flask.jsonify(resultDic)
+    return jsonify(resultDic)
 
 
 # Query the specific info of a car giving its  ID
@@ -80,7 +80,7 @@ def getCarInfo():
         resultDic['type'] = row[1]
         resultDic['car_num'] = row[2]
     cursor.close()
-    return flask.jsonify(resultDic)
+    return jsonify(resultDic)
 
 # Query the specific info of a driver giving its  ID
 @app.route('/get_Driver_info', methods=['GET'])
@@ -95,7 +95,7 @@ def getDriverInfo():
         resultDic['name'] = row[1]
         resultDic['tel'] = row[2]
     cursor.close()
-    return flask.jsonify(resultDic)
+    return jsonify(resultDic)
 
 @app.route('/', methods=['GET'])
 def index():
