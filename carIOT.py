@@ -102,5 +102,5 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host = '45.32.48.44')
     # app.run(debug=False, port = 80, host = '45.32.56.30')
