@@ -49,12 +49,12 @@ $(document).ready(function(){
         $(".add-btn img").toggleClass('rotate');
     });
 
-    function loadCars(n) {
+    function loadCars() {
         $.ajax({
-            url: 'http://45.32.48.44:5000/get_n_location',
+            url: 'http://45.32.48.44:5000/get_latest_location',
             type: 'GET',
             dataType: 'json',
-            data: {n: n},
+            // data: {n: n},
             success: function(data) {
                 console.log(data);
                 for (var prop in data) {
@@ -63,12 +63,14 @@ $(document).ready(function(){
                     y = data[prop]["Latitude"];
 
                     info += "#汽车ID: " + data[prop]["CarId"] + '\n';
+                    info += "车主姓名: " + data[prop]["DriverName"] + '\n';
+                    info += "联系方式: " + data[prop]["DriverTel"] + '\n';
                     info += "汽油容量: " + data[prop]["oil_capacity"] + '\n';
-                    info += "温度: " + data[prop]["temperature"] + "℃" + '\n';
                     info += "经度: " + data[prop]["Longitude"] + '\n';
                     info += "纬度: " + data[prop]["Latitude"] + '\n';
+                    info += "温度: " + data[prop]["temperature"] + "℃" + '\n';
 
-                    info += "记录时间: " + prop;
+                    // info += "记录时间: " + prop;
 
                     add_point(x, y, info);
                 }
@@ -85,6 +87,6 @@ $(document).ready(function(){
         });
     }
 
-    loadCars(50);
+    loadCars();
 
 })
