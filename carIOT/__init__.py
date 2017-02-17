@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import pymysql
 import dbconf
+import names
 
 def connectToMysql():
     db = pymysql.connect(dbconf._IPaddress,dbconf._username,dbconf._password,dbconf._dbname)
@@ -69,20 +70,13 @@ def getNLocation():
 @app.route('/get_latest_location', methods=['GET'])
 def getLatestLocation():
     cursor = connectToMysql()
-    sql = '''SELECT car_id, name, tel, longitude, latitude, oil_capacity, temperature, create_time
-    FROM Drive_info as t1
-    Join 
-    (SELECT car_id, max(create_time) as create_time from Drive_info group by car_id) as t2
-    ON t1.car_id = t2.car_id AND t1.create_time = t2.create_time
-    Join
-    Driver as t3
-    On t1.driver_id = t3.driver_id'''
+    sql = 'SELECT t1.car_id, name, tel, longitude, latitude, oil_capacity, temperature, t1.create_time FROM Drive_info as t1 Join (SELECT car_id, max(create_time) as create_time from Drive_info group by car_id) as t2 ON t1.car_id = t2.car_id AND t1.create_time = t2.create_time Join Driver as t3 On t1.driver_id = t3.id'
     cursor.execute(sql)
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
         CarId = row[0]
-        DriverName = row[1]
+        DriverName =names.get_first_name(gender='male')
         DriverTel = row[2]
         Longitude = row[3]
         Latitude = row[4]
@@ -129,6 +123,6 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    # app.run(debug=True, host = '45.32.48.44', port = 5000)
+    # app.run(debug=True, host ='45.32.48.44', port = 8386)
     app.run(debug=True, host = '127.0.0.1', port = 5000)
     # app.run(debug=False, port = 80, host = '45.32.56.30')
