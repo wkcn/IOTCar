@@ -24,6 +24,10 @@
 <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/static/js/sweetalert2.min.js"></script>
 <script type="text/javascript" src="/static/js/logic.js"></script>
-<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<script>
+if(location.hostname == '127.0.0.1') {
+    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+}
+</script>
 </body>
 </html>
