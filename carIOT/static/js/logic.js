@@ -15,11 +15,12 @@ $(document).ready(function(){
 
 
     var _onClick = function(e){
-        console.log(e.target.G.anything);
+        // console.log(e.target);
         swal({
-            html: e.target.G.anything.replace(/\n/g, "<br />")
+            html: e.target.G.anything.replace(/\n/g, "<br />") + "速度: " + parseInt(e.target.ji.extData["speed"]) + "km/s"
         });
     }
+    var markers = [];
     var add_point = function(x, y, title) {
         var marker = new AMap.Marker({
             position: [x, y],
@@ -28,9 +29,25 @@ $(document).ready(function(){
             animation: "AMAP_ANIMATION_DROP",
             topWhenMouseOver: true,
             anything: title,
+            extData: {"speed": 0.1}
         });
         marker.setMap(map);
+        // var ll = new AMap.LngLat(106.471586, 36.408494);
+        // marker.moveTo(ll, 1000);
+
+        markers.push(marker);
+
         AMap.event.addListener(marker, 'click', _onClick);
+    }
+
+    var setMoveTo = function() {
+        $(markers).each(function(n, el) {
+            var pos = el.getPosition();
+            var ll = pos.offset(Math.random()*200-100, Math.random()*50-25);
+            var speed = Math.random()*150 + 40;
+            el.setExtData({"speed": speed});
+            el.moveTo(ll, speed);
+        });
     }
 
     // add_point(116.480983, 39.989628, "这里是详细信息！\n支持换行");
@@ -73,6 +90,7 @@ $(document).ready(function(){
                     // info += "记录时间: " + prop;
 
                     add_point(x, y, info);
+                    setMoveTo();
                 }
             }
         })
@@ -88,5 +106,11 @@ $(document).ready(function(){
     }
 
     loadCars();
+
+    
+    setInterval(function() {
+        // console.log("set move to");
+        setMoveTo();
+    }, 3000)
 
 })
