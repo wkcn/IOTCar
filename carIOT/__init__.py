@@ -40,11 +40,23 @@ def sql_insert(tableName, **assign):
 def postInfo():
     cursor = connectToMysql()
     jsonInfo = request.json
-    '''
-    sql = """INSERT INTO CarStickTime(MobileID, StickTime, Longitude, Latitude) 
-        VALUES ('%s',%s','%f','%f')""" % (jsonInfo["MobileID"], jsonInfo['StickTime'], float(jsonInfo['Longitude']), float(jsonInfo['Latitude']))
-    '''
     sql = sql_insert("GPSLog", GPSID = jsonInfo["GPSID"], MobileID = jsonInfo["MobileID"], GPSTime = jsonInfo["GPSTime"], RecvTime = get_time(), Longitude = jsonInfo["Longitude"], Latitude = jsonInfo["Latitude"], Speed = jsonInfo["Speed"])
+    try:
+        cursor.execute(sql)
+        db.commit()
+        cursor.close()
+        return "Successed"
+    except:
+        db.rollback()
+        cursor.close()
+        return "Failed"
+
+# Insert a new car sensor info into the database
+@app.route('/add_new_sensor', methods = ['POST'])
+def postSensorInfo():
+    cursor = connectToMysql()
+    jsonInfo = request.json
+    sql = sql_insert("CarSensor", MobileID = jsonInfo.get("MobileID", -1), StickTime = jsonInfo.get("StickTime", -1), light = jsonInfo.get("light", -1), pitch = jsonInfo.get("pitch", -1), roll = jsonInfo.get("roll", -1), azimuth = jsonInfo.get("azimuth", -1), xMag = jsonInfo.get("xMag", -1), yMag = jsonInfo.get("yMag", -1), zMag = jsonInfo.get("zMag", -1), xforce = jsonInfo.get("xforce", -1), yforce = jsonInfo.get("yforce", -1), zforce = jsonInfo.get("zforce", -1), accuracy = jsonInfo.get("accuracy", -1))
     try:
         cursor.execute(sql)
         db.commit()

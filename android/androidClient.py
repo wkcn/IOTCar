@@ -11,9 +11,11 @@ import random
 import os
 import datetime
 import csv
+import uuid
 
 #SERVER_ADDR = "http://45.32.56.30/"
-SERVER_ADDR = "http://127.0.0.1:5000/"
+#SERVER_ADDR = "http://127.0.0.1:5000/"
+SERVER_ADDR = "http://192.168.3.52:5000/"
 INTERVAL_SECONDS = 10
 
 droid = sl4a.Android()
@@ -34,15 +36,13 @@ def get_time():
     return time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
 
 def GetID(name):
-    filename = "%s.txt" % name
-    if os.path.exists(filename):
-        fin = open(filename, "r")
-        mid = int(fin.read())
-    else:
-        mid = random.randint(0, 999999999)
-        fout = open(filename, "w")
-        fout.write("%d" % mid)
-    return mid
+    w = str(uuid.uuid1()) + name
+    code = 0
+    x = 1
+    for c in w:
+        code += ord(c) * x
+        x *= 10
+    return code % 1e9 
 
 # MobileID is a int
 def GetMobileID():
@@ -53,7 +53,7 @@ def GetGPSID():
 
 def GetGPS():
     loc = droid.readLocation().result
-    if len(loc) == 0:
+    if len(loc) == 0 and False:
         loc = droid.getLastKnownLocation().result
     return loc
 
@@ -82,10 +82,11 @@ while 1:
     sensors_data = [] 
     sensors_name = ["light", "pitch", "roll", "azimuth", "xMag", "yMag", "zMag", "xforce", "yforce", "zforce", "accuracy"]
 
-
+    stime = get_time()
     gpsdata = GetGPS()
     if len(gpsdata):
-        stime = get_time()
+        print(gpsdata)
+        
         gd = {
             "GPSID": GPSID,
             "MobileID": MobileID,
@@ -94,13 +95,15 @@ while 1:
             "Latitude":gpsdata["latitude"],
             "Speed":gpsdata["speed"]
         }
-
-        sensors = droid.readSensors().result
-        sensors["MobileID"] = MobileID
-        sensors["StickTime"] = stime
         SendData("add_new_location", gd)
-        SendData("add_new_sensor", sd)
-        time.sleep(INTERVAL_SECONDS)
+
+    sensors = droid.readSensors().result
+    sensors["MobileID"] = MobileID
+    sensors["StickTime"] = stime
+    
+    SendData("add_new_sensor", sensors)
+    print (sensors)
+    time.sleep(INTERVAL_SECONDS)
 
     '''
     SendData("dt_data_sensor", sdata)
