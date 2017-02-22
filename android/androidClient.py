@@ -10,10 +10,11 @@ import json
 import random
 import os
 import datetime
+import csv
 
 #SERVER_ADDR = "http://45.32.56.30/"
 SERVER_ADDR = "http://127.0.0.1:5000/"
-INTERVAL_SECONDS = 3
+INTERVAL_SECONDS = 10
 
 droid = sl4a.Android()
 droid.startSensingTimed(1,500)
@@ -82,16 +83,8 @@ while 1:
     sensors_name = ["light", "pitch", "roll", "azimuth", "xMag", "yMag", "zMag", "xforce", "yforce", "zforce", "accuracy"]
 
 
-    '''
-    for name in sensors_name:
-        if name in sensors:
-            #r = {"name":name, "value":sensors[name]}
-            r = (name, sensors[name])
-        sensors_data.append(r)
-    '''
     gpsdata = GetGPS()
     if len(gpsdata):
-        #stime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         stime = get_time()
         gd = {
             "GPSID": GPSID,
@@ -101,7 +94,12 @@ while 1:
             "Latitude":gpsdata["latitude"],
             "Speed":gpsdata["speed"]
         }
+
+        sensors = droid.readSensors().result
+        sensors["MobileID"] = MobileID
+        sensors["StickTime"] = stime
         SendData("add_new_location", gd)
+        SendData("add_new_sensor", sd)
         time.sleep(INTERVAL_SECONDS)
 
     '''
