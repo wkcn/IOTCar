@@ -7,11 +7,13 @@ import urllib.parse
 import urllib.request
 import time
 import json
+import random
+import os
+import datetime
 
-SERVER_ADDR = "http://45.32.56.30/"
-#SERVER_ADDR = "http://127.0.0.1:5000/"
-USER_NAME = "user1"
-INTERVAL_SECONDS = 1
+#SERVER_ADDR = "http://45.32.56.30/"
+SERVER_ADDR = "http://127.0.0.1:5000/"
+INTERVAL_SECONDS = 3
 
 droid = sl4a.Android()
 droid.startSensingTimed(1,500)
@@ -25,12 +27,39 @@ def SendData(name, data):
     req.add_header('Content-Type', 'application/json')
     urllib.request.urlopen(req)
 
+def get_time():
+    # Get current time
+    # return a string %Y%m%d%H%M%S
+    return time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
+
+def GetID(name):
+    filename = "%s.txt" % name
+    if os.path.exists(filename):
+        fin = open(filename, "r")
+        mid = int(fin.read())
+    else:
+        mid = random.randint(0, 999999999)
+        fout = open(filename, "w")
+        fout.write("%d" % mid)
+    return mid
+
+# MobileID is a int
+def GetMobileID():
+    return GetID("MobileID")
+
+def GetGPSID():
+    return GetID("GPSID")
+
 def GetGPS():
     loc = droid.readLocation().result
     if len(loc) == 0:
         loc = droid.getLastKnownLocation().result
     return loc
 
+MobileID = GetMobileID()
+GPSID = GetGPSID()
+print ("Your MobileID is %d" % GetMobileID())
+print ("Your GPSID is %d" % GetGPSID())
 while 1:
     '''
         sensors中的key解释:
@@ -62,8 +91,18 @@ while 1:
     '''
     gpsdata = GetGPS()
     if len(gpsdata):
-        print (gpsdata)
-        time.sleep(1)
+        #stime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        stime = get_time()
+        gd = {
+            "GPSID": GPSID,
+            "MobileID": MobileID,
+            "GPSTime": stime,
+            "Longitude":gpsdata["longitude"],
+            "Latitude":gpsdata["latitude"],
+            "Speed":gpsdata["speed"]
+        }
+        SendData("add_new_location", gd)
+        time.sleep(INTERVAL_SECONDS)
 
     '''
     SendData("dt_data_sensor", sdata)

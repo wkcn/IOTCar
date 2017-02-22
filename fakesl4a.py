@@ -12,7 +12,7 @@ class Sensor:
 class Location:
     @property
     def result(self):
-        return {}
+        return {"longitude":117, "latitude":32, "speed":3}
 
 class Android:
     Android = 0

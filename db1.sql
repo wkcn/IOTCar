@@ -14,7 +14,7 @@ create table CarStickTime(
 );
 */
 
--- 由CarStickTime表替代
+-- CarStickTime表被CarMileagesInfo和GPSLog表代替
 -- 车辆里程信息
 create table CarMileagesInfo(
 	MobileID int,

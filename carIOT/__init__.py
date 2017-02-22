@@ -1,22 +1,50 @@
 from flask import Flask, request, jsonify, render_template
 import pymysql
 import dbconf
-import names
+#import names
+import time
 
+db = None
 def connectToMysql():
+    global db
     db = pymysql.connect(dbconf._IPaddress,dbconf._username,dbconf._password,dbconf._dbname)
     cursor = db.cursor()
     return cursor
 
 app = Flask(__name__)
 
+def get_time():
+    # Get current time
+    # return a string %Y%m%d%H%M%S
+    return time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
+
+def normalSQL(assign):
+    attr = []
+    value = []
+    for name in assign.keys():
+        attr.append(name)
+        v = assign[name]
+        if type(v) == str:
+            value.append("'%s'" % v)
+        else:
+            value.append(str(v))
+    return attr, value
+
+def sql_insert(tableName, **assign):
+    # example: sql_insert(GPS_INFO, long=2.0, lat=3.0)
+    attr, value = normalSQL(assign)
+    return "insert into %s(%s) values (%s);" % (tableName, ','.join(attr), ','.join(value))
+
 # Insert a new car location info into the database
 @app.route('/add_new_location', methods = ['POST'])
 def postInfo():
     cursor = connectToMysql()
     jsonInfo = request.json
+    '''
     sql = """INSERT INTO CarStickTime(MobileID, StickTime, Longitude, Latitude) 
         VALUES ('%s',%s','%f','%f')""" % (jsonInfo["MobileID"], jsonInfo['StickTime'], float(jsonInfo['Longitude']), float(jsonInfo['Latitude']))
+    '''
+    sql = sql_insert("GPSLog", GPSID = jsonInfo["GPSID"], MobileID = jsonInfo["MobileID"], GPSTime = jsonInfo["GPSTime"], RecvTime = get_time(), Longitude = jsonInfo["Longitude"], Latitude = jsonInfo["Latitude"], Speed = jsonInfo["Speed"])
     try:
         cursor.execute(sql)
         db.commit()
