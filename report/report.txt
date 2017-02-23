@@ -1,0 +1,29 @@
+基于物联网的物流系统
+
+数据采集组工作:
+1. 我们小组的所有成员一起分析了老师提供的gps物流系统数据库, 数据采集组的成员根据数据库分析报告, 了解了物流系统数据库的改进方法, 建立了改进后的物流系统数据库的DML和DDL. 然后和后端组以及前端组协作, 说明我们的物流系统项目需要储存的数据表, 需要展示哪些数据项.
+我们建立了17个表:
+CarMileagesInfo 车辆里程信息
+GPSState GPS状态
+UserState 用户状态
+GPSLog GPS信息
+CarSensor 车辆传感器信息
+TabGPS_DayRpt 车牌号, 里程, 速度
+Mobile_Info 车辆信息
+Driver 驾驶员信息
+OrderCheck_Info 指令编号名称
+SendCmdLog 指令发送记录
+CityRange 城市坐标
+AlarmOperation 车辆报警事件的信息
+
+TollGate 收费站信息
+CarFare 收费信息记录
+LogisticsInfo 物流信息记录
+LineAndCarItem 路线信息记录
+Driver_record 司机行驶记录
+
+2. 数据生成
+  2.1 随机生成
+  2.2 合理生成
+  2.3 Android手机传感器生成 
+	使用了Android平台下的SL4A库, 获取Android设备的GPS, 加速度传感器, 磁力计, 亮度的数据, 每隔10秒发送一个post请求给后端以传输数据. 

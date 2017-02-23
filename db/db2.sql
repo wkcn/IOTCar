@@ -7,7 +7,7 @@ create table TollGate(
 );
 
 --司机行驶记录
-create table Drive_record(
+create table Driver_record(
 	id int primary key auto_increment,
 	driver_id int,
 	dst_city varchar(50),

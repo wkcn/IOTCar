@@ -13,9 +13,9 @@ import datetime
 import csv
 import uuid
 
-#SERVER_ADDR = "http://45.32.56.30/"
+SERVER_ADDR = "http://45.32.48.44:5000/"
 #SERVER_ADDR = "http://127.0.0.1:5000/"
-SERVER_ADDR = "http://192.168.3.52:5000/"
+#SERVER_ADDR = "http://192.168.3.52:5000/"
 INTERVAL_SECONDS = 10
 
 droid = sl4a.Android()
@@ -23,12 +23,17 @@ droid.startSensingTimed(1,500)
 droid.startLocating(1, 1) # updateTime(milliseconds), minUpdateDistance(meters)
 
 def SendData(name, data):
+    #return
+    #try:
     headers = {'Content-Type': 'application/json'}
     jdata = json.dumps(data)
     bdata = bytes(jdata, "utf8")
+    print (SERVER_ADDR + name)
     req = urllib.request.Request(url = SERVER_ADDR + name, data = bdata)
     req.add_header('Content-Type', 'application/json')
-    urllib.request.urlopen(req)
+    urllib.request.urlopen(req, timeout=5)
+    #except:
+    #    print ("send failed")
 
 def get_time():
     # Get current time
@@ -87,15 +92,16 @@ while 1:
     if len(gpsdata):
         print(gpsdata)
         
-        gd = {
-            "GPSID": GPSID,
-            "MobileID": MobileID,
-            "GPSTime": stime,
-            "Longitude":gpsdata["longitude"],
-            "Latitude":gpsdata["latitude"],
-            "Speed":gpsdata["speed"]
-        }
-        SendData("add_new_location", gd)
+        if "gps" in gpsdata and len(gpsdata["gps"]):
+            gd = {
+                "GPSID": GPSID,
+                "MobileID": MobileID,
+                "GPSTime": stime,
+                "Longitude":gpsdata["gps"]["longitude"],
+                "Latitude":gpsdata["gps"]["latitude"],
+                "Speed":gpsdata["gps"]["speed"]
+            }
+            SendData("add_new_location", gd)
 
     sensors = droid.readSensors().result
     sensors["MobileID"] = MobileID
