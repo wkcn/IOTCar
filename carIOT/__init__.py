@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import pymysql
 import dbconf
-#import names
+import names
 import time
 
 db = None
@@ -127,6 +127,30 @@ def getLatestLocation():
     cursor.close()
     return jsonify(resultDic)
 
+@app.route('/get_latest_GPS', methods=['GET'])
+def getGPSInfo():
+    cursor = connectToMysql()
+    n = request.args.get('n')
+    cursor.execute("SELECT RecvTime, Longitude, Latitude FROM GPSLog Order By RecvTime DESC LIMIT "+ n)
+    result = cursor.fetchall()
+    resultDic = {}
+    for row in result:
+        resultDic[str(row[0])] = {'longitude':row[1], 'latitude':row[2]}
+    cursor.close()
+    return jsonify(resultDic)
+
+
+@app.route('/get_latest_sensors', methods=['GET'])
+def getSensorsInfo():
+    cursor = connectToMysql()
+    n = request.args.get('n')
+    cursor.execute("SELECT StickTime, light, xforce, yforce, zforce, accuracy FROM CarSensor Order By StickTime DESC LIMIT "+ n)
+    result = cursor.fetchall()
+    resultDic = {}
+    for row in result:
+        resultDic[str(row[0])] = {'light':row[1], 'xforce':row[2], 'yforce':row[3], 'zforce':row[4], 'accuracy':row[5]}
+    cursor.close()
+    return jsonify(resultDic)
 
 # Query the specific info of a car giving its  ID
 @app.route('/get_car_info', methods=['GET'])
