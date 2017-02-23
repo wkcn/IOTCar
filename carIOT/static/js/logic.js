@@ -11,13 +11,14 @@ $(document).ready(function(){
             map.addControl(new AMap.Scale());
 
             map.addControl(new AMap.OverView({isOpen:true}));
-        });
+        }
+    );
 
 
     var _onClick = function(e){
-        // console.log(e.target);
+        console.log(e.target);
         swal({
-            html: e.target.G.anything.replace(/\n/g, "<br />") + "速度: " + parseInt(e.target.ji.extData["speed"]) + "km/s"
+            html: e.target.G.title.replace(/\n/g, "<br />") + "速度: " + parseInt(e.target.ji.extData["speed"]) + "km/s"
         });
     }
     var markers = [];
@@ -28,7 +29,7 @@ $(document).ready(function(){
             clickable: true,
             animation: "AMAP_ANIMATION_DROP",
             topWhenMouseOver: true,
-            anything: title,
+            title: title,
             extData: {"speed": 0.1}
         });
         marker.setMap(map);
@@ -107,10 +108,68 @@ $(document).ready(function(){
 
     loadCars();
 
+    var content= "<div class='mobile'>M</div>";
+    var mobile = new AMap.Marker({
+        content: content,
+        position: [113.388644,23.06786],
+        title: "No Data",
+        topWhenMouseOver: true,
+        // offset: new AMap.Pixel(-10,0),
+        clickable: true,
+    });
+    mobile.setMap(map);
+
+    var _onMobileClick = function(e){
+        // console.log(e.target);
+        swal({
+            html: e.target.ji.title.replace(/\n/g, "<br />")
+        });
+    }
+
+    AMap.event.addListener(mobile, 'click', _onMobileClick);
+
+
+    function setMobile() {
+        $.ajax({
+            url: 'http://45.32.48.44:5000/get_latest_GPS?n=1',
+            type: 'GET',
+            dataType: 'json',
+            // data: {n: n},
+            success: function(data) {
+                // console.log(data);
+                for(var p in data) {
+                    var x = data[p]["longitude"],
+                    y = data[p]["latitude"];
+                    mobile.setPosition(new AMap.LngLat(x, y));
+                    return;
+                }
+            }
+        });
+
+        $.ajax({
+            url: 'http://45.32.48.44:5000/get_latest_sensors?n=1',
+            type: 'GET',
+            dataType: 'json',
+            // data: {n: n},
+            success: function(data) {
+                // console.log(data);
+                for(var p in data) {
+                    var info = "";
+                    for(var pp in data[p]) {
+                        info += pp + ": " + data[p][pp] + '\n';
+                    }
+                    mobile.setTitle(info);
+                    return;
+                }
+            }
+        });
+    }
+
     
     setInterval(function() {
         // console.log("set move to");
         setMoveTo();
+        setMobile();
     }, 3000)
 
 })

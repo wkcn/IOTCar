@@ -24,6 +24,37 @@ html, body {
     cursor: pointer;
 }
 
+.raw-gps {
+    position: fixed;
+    right: 10px;
+    top: 100px;
+    /*width: 60px;*/
+    /*height: 60px;*/
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: 3px solid gray;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.raw-sensor {
+    position: fixed;
+    right: 10px;
+    top: 150px;
+    /*width: 60px;*/
+    /*height: 60px;*/
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: 3px solid gray;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.raw-gps a,
+.raw-sensor a {
+    color: black;
+}
+
 .add-btn img {
     transition-duration: 0.4s;
     -moz-transition-duration: 0.4s; /* Firefox 4 */
@@ -83,4 +114,16 @@ label {
     padding: 10px 10px;
     margin-top: 10px;
     background-color: lightgreen;
+}
+
+.mobile {
+    border: 3px solid red;
+    color: red;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-weight: 700px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    /*font-size: 15px;*/
 }
