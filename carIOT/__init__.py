@@ -131,7 +131,7 @@ def getLatestLocation():
 def getGPSInfo():
     cursor = connectToMysql()
     n = request.args.get('n')
-    cursor.execute("SELECT RecvTime, Longitude, Latitude FROM GPSLog Order By RecvTime ASC LIMIT "+ n)
+    cursor.execute("SELECT RecvTime, Longitude, Latitude FROM GPSLog Order By RecvTime DESC LIMIT "+ n)
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
@@ -144,7 +144,7 @@ def getGPSInfo():
 def getSensorsInfo():
     cursor = connectToMysql()
     n = request.args.get('n')
-    cursor.execute("SELECT StickTime, light, xforce, yforce, zforce, accuracy FROM CarSensor Order By StickTime ASC LIMIT "+ n)
+    cursor.execute("SELECT StickTime, light, xforce, yforce, zforce, accuracy FROM CarSensor Order By StickTime DESC LIMIT "+ n)
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
