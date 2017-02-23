@@ -135,7 +135,7 @@ def getGPSInfo():
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
-        resultDic[row[0]] = {'longitude':row[1], 'latitude':row[2]}
+        resultDic[str(row[0])] = {'longitude':row[1], 'latitude':row[2]}
     cursor.close()
     return jsonify(resultDic)
 
@@ -148,7 +148,7 @@ def getSensorsInfo():
     result = cursor.fetchall()
     resultDic = {}
     for row in result:
-        resultDic[row[0]] = {'light':row[1], 'xforce':row[2], 'yforce':row[3], 'zforce':row[4], 'accuracy':row[5]}
+        resultDic[str(row[0])] = {'light':row[1], 'xforce':row[2], 'yforce':row[3], 'zforce':row[4], 'accuracy':row[5]}
     cursor.close()
     return jsonify(resultDic)
 
