@@ -1,31 +1,56 @@
 <!DOCTYPE html>
+<!-- html根节点 -->
 <html>
+<!-- 头部节点 -->
 <head>
+    <!-- 定义编码 -->
     <meta charset="utf-8">
+    <!-- 页面标题 -->
     <title>物联网地图</title>
+    <!-- 引入弹出框库的样式表 -->
     <link rel="stylesheet" type="text/css" href="/static/css/sweetalert2.min.css">
+    <!-- 引入自定义样式库 -->
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
 </head>
+<!-- body节点 -->
 <body>
+<!-- 地图容器 -->
 <div id="container"></div>
+<!-- 新增节点的输入框 -->
 <div class="inputs">
+    <!-- 标签 -->
     <label>经度:</label>
+    <!-- 经度输入框 -->
     <input type="text" name="x">
+    <!-- 标签 -->
     <label>纬度:</label>
+    <!-- 纬度输入框 -->
     <input type="text" name="y">
+    <!-- 标签 -->
     <label>附加信息:</label>
+    附件信息输入框
     <textarea class="info" rows="3"></textarea>
+    <!-- 点击确定按钮，通过jQuery绑定点击事件到实际函数中 -->
     <button class="add">新增车辆</button>
 </div>
+<!-- 圆圆的加号按钮 -->
 <div class="add-btn">
+    <!-- 加号图片 -->
     <img src="/static/img/add.png" width="60px" height="60px">
 </div>
+<!-- 原生GPS数据链接 -->
 <div class="raw-gps"><a href="http://45.32.48.44:5000/get_latest_GPS?n=30" target="_blank">RAW GPS</a></div>
+<!-- 原生传感器数据链接 -->
 <div class="raw-sensor"><a href="http://45.32.48.44:5000/get_latest_sensors?n=30" target="_blank">RAW SENSOR</a></div>
+<!-- 引入高德地图API库 -->
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=39859ed9c5ee9bfa91bf8d31581d2052"></script>
+<!-- 引入jquery库 -->
 <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>
+<!-- 引入swal弹框库 -->
 <script type="text/javascript" src="/static/js/sweetalert2.min.js"></script>
+<!-- 引入页面逻辑库 -->
 <script type="text/javascript" src="/static/js/logic.js"></script>
+<!-- 本地调试用 -->
 <script>
 if(location.hostname == '127.0.0.1') {
     document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
